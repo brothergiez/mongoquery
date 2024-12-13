@@ -188,4 +188,8 @@ The corresponding MongoDB query pipeline will look like:
 ]
 
 ```
-
+#### **Notes**
+- The Where condition supports nested expressions and dynamic operators (AND, OR, etc.).
+- GroupBy must be used with aggregation functions like SUM, COUNT, etc., for meaningful results.
+- Offset is implemented using the MongoDB $skip stage in the aggregation pipeline.
+- Combines seamlessly with Limit for pagination.
