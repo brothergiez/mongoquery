@@ -166,5 +166,24 @@ if err != nil {
     log.Fatalf("Query failed: %v", err)
 }
 fmt.Println("Results:", results)
+```
+**Output**
+Example Result If the query is:
+```sql
+SELECT field1, field2 
+FROM orders 
+WHERE status = 'active' 
+ORDER BY field1 ASC 
+LIMIT 10 OFFSET 20;
+```
+The corresponding MongoDB query pipeline will look like:
+```json
+[
+    { "$match": { "status": "active" } },
+    { "$sort": { "field1": 1 } },
+    { "$skip": 20 },
+    { "$limit": 10 }
+]
 
 ```
+
