@@ -108,3 +108,63 @@ Below is the complete list of query functions available in the MongoQuery librar
 | `mapOperatorToMongo(operator string)` | Converts SQL-like operators to MongoDB operators (`>`, `<`, `=`, `!=`).    |
 
 ---
+
+
+## **HOW TO USE THIS QUERY**
+### **SELECT QUERY**
+
+#### Description
+The **SELECT** query in MongoQuery allows you to retrieve data from a MongoDB collection using SQL-like syntax. It supports filtering, grouping, sorting, and limiting results, making it easy to construct complex queries in a readable and intuitive manner.
+
+##### Example Usage
+
+**1. Basic SELECT Query**
+```go
+qb := builder.NewQueryBuilder().
+    Select("field1", "field2").
+    From("orders").
+    Where("status = 'active'").
+    OrderBy("field1 ASC").
+    Limit(10)
+
+results, err := qb.Execute(mdb.Database)
+if err != nil {
+    log.Fatalf("Query failed: %v", err)
+}
+fmt.Println("Results:", results)
+```
+
+**2. SELECT with Group By and Having**
+```go
+qb := builder.NewQueryBuilder().
+    Select("category", "SUM(amount) AS totalAmount").
+    From("orders").
+    GroupBy("category").
+    Having("totalAmount > 5000").
+    OrderBy("totalAmount DESC").
+    Limit(10)
+
+results, err := qb.Execute(mdb.Database)
+if err != nil {
+    log.Fatalf("Query failed: %v", err)
+}
+fmt.Println("Results:", results)
+```
+
+**3. SELECT with Offset for Pagination**
+```go
+qb := builder.NewQueryBuilder().
+    Select("field1", "field2").
+    From("orders").
+    Where("status = 'active'").
+    OrderBy("field1 ASC").
+    Limit(10).
+    Offset(20)
+
+results, err := qb.Execute(mdb.Database)
+if err != nil {
+    log.Fatalf("Query failed: %v", err)
+}
+fmt.Println("Results:", results)
+
+```
