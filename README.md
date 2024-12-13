@@ -167,7 +167,9 @@ if err != nil {
 }
 fmt.Println("Results:", results)
 ```
+
 **Output**
+
 Example Result If the query is:
 ```sql
 SELECT field1, field2 
