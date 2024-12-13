@@ -111,9 +111,76 @@ Below is the complete list of query functions available in the MongoQuery librar
 
 
 ## **HOW TO USE THIS QUERY**
-### **SELECT QUERY**
+### **Example Implementation**
+```go
+package main
 
-#### Description
+import (
+	"fmt"
+	"log"
+
+	"github.com/brothergiez/mongoquery/builder"
+	"github.com/brothergiez/mongoquery/client"
+)
+
+func main() {
+	// Initialize MongoDB client
+	mdb, err := client.New("mongodb://localhost:27017", "test_db")
+	if err != nil {
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
+	}
+
+	// Example 1: Basic SELECT query
+	fmt.Println("Example 1: Basic SELECT query")
+	basicQuery := builder.NewQueryBuilder().
+		Select("field1", "field2").
+		From("orders").
+		Where("status = 'active'").
+		OrderBy("field1 ASC").
+		Limit(10)
+
+	results, err := basicQuery.Execute(mdb.Database)
+	if err != nil {
+		log.Fatalf("Query failed: %v", err)
+	}
+	fmt.Printf("Results: %v\n\n", results)
+
+	// Example 2: SELECT with Group By and Having
+	fmt.Println("Example 2: SELECT with Group By and Having")
+	groupQuery := builder.NewQueryBuilder().
+		Select("category", "SUM(amount) AS totalAmount").
+		From("orders").
+		GroupBy("category").
+		Having("totalAmount > 5000").
+		OrderBy("totalAmount DESC").
+		Limit(5)
+
+	groupResults, err := groupQuery.Execute(mdb.Database)
+	if err != nil {
+		log.Fatalf("Group query failed: %v", err)
+	}
+	fmt.Printf("Group Results: %v\n\n", groupResults)
+
+	// Example 3: SELECT with Offset for Pagination
+	fmt.Println("Example 3: SELECT with Offset for Pagination")
+	paginationQuery := builder.NewQueryBuilder().
+		Select("field1", "field2").
+		From("orders").
+		Where("status = 'active'").
+		OrderBy("field1 ASC").
+		Limit(10).
+		Offset(20)
+
+	paginatedResults, err := paginationQuery.Execute(mdb.Database)
+	if err != nil {
+		log.Fatalf("Pagination query failed: %v", err)
+	}
+	fmt.Printf("Paginated Results: %v\n", paginatedResults)
+}
+```
+
+### **SELECT QUERY**
+##### **Description**
 The **SELECT** query in MongoQuery allows you to retrieve data from a MongoDB collection using SQL-like syntax. It supports filtering, grouping, sorting, and limiting results, making it easy to construct complex queries in a readable and intuitive manner.
 
 ##### Example Usage
@@ -167,9 +234,7 @@ if err != nil {
 }
 fmt.Println("Results:", results)
 ```
-
 **Output**
-
 Example Result If the query is:
 ```sql
 SELECT field1, field2 
@@ -186,8 +251,8 @@ The corresponding MongoDB query pipeline will look like:
     { "$skip": 20 },
     { "$limit": 10 }
 ]
-
 ```
+
 #### **Notes**
 - The Where condition supports nested expressions and dynamic operators (AND, OR, etc.).
 - GroupBy must be used with aggregation functions like SUM, COUNT, etc., for meaningful results.
