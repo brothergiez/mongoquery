@@ -180,10 +180,10 @@ func main() {
 ```
 
 ### **SELECT QUERY**
-##### **Description**
+#### **Description**
 The **SELECT** query in MongoQuery allows you to retrieve data from a MongoDB collection using SQL-like syntax. It supports filtering, grouping, sorting, and limiting results, making it easy to construct complex queries in a readable and intuitive manner.
 
-##### Example Usage
+#### Example Usage
 
 **1. Basic SELECT Query**
 ```go
@@ -259,3 +259,58 @@ The corresponding MongoDB query pipeline will look like:
 - GroupBy must be used with aggregation functions like SUM, COUNT, etc., for meaningful results.
 - Offset is implemented using the MongoDB $skip stage in the aggregation pipeline.
 - Combines seamlessly with Limit for pagination.
+
+---
+
+### INSERT
+
+#### Description
+The **INSERT** query in MongoQuery allows you to insert one or multiple documents into a MongoDB collection using SQL-like syntax. You can specify the fields and their corresponding values for insertion, making the process intuitive and structured.
+
+---
+
+#### Example Usage
+
+**Insert a Single Row**
+```go
+qb := builder.NewInsertBuilder().
+    InsertInto("orders", []string{"field1", "field2"}).
+    Values([]interface{}{"value1", 100}).
+    Execute()
+```
+
+**Insert Multiple Rows**
+```go
+qb := builder.NewInsertBuilder().
+    InsertInto("orders", []string{"field1", "field2"}).
+    Values([]interface{}{"value1", 100}).
+    Values([]interface{}{"value2", 200}).
+    Execute()
+```
+
+**Output**
+
+If the query is:
+```sql
+INSERT INTO orders (field1, field2) VALUES ('value1', 100), ('value2', 200);
+```
+
+The corresponding MongoDB operation will insert the following documents:
+```json
+[
+    { "field1": "value1", "field2": 100 },
+    { "field1": "value2", "field2": 200 }
+]
+```
+
+#### **Notes**
+
+- The InsertInto method specifies the target collection and the fields.
+- The Values method allows you to insert a single row of values.
+- The BulkValues method supports inserting multiple rows at once.
+- Ensure the number of fields matches the number of values provided.
+
+
+#### **Error Handling**
+- If the number of fields and values do not match, the function will throw an error.
+- MongoDB connection or schema issues will result in runtime errors; handle them gracefully.
