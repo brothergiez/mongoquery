@@ -91,13 +91,13 @@ func main() {
 	fmt.Printf("Results: %v\n\n", results)
 	
 	
-	//Example with sqlparser
-	sql := `
-    SELECT field1, field2 
-    FROM orders 
-    WHERE status = 'active' 
-    ORDER BY field1 ASC 
-    LIMIT 10`
+    //Example with sqlparser
+    sql := `
+        SELECT field1, field2 
+        FROM orders 
+        WHERE status = 'active' 
+        ORDER BY field1 ASC 
+        LIMIT 10`
 
     parser := sqlparser.New()
     sp, err := parser.Parse(sql)
