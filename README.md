@@ -25,22 +25,22 @@ Below is the complete list of query functions available in the MongoQuery librar
 
 ---
 
-### **1. SELECT**
+## **1. SELECT**
 
 | Function                        | Description                                                                 |
 |---------------------------------|-----------------------------------------------------------------------------|
 | `Select(fields ...string)`      | Specifies the columns to select.                                            |
 | `From(collection string)`       | Specifies the collection to query.                                          |
-| `Where(condition string)`       | Defines filter conditions (`AND`, `OR`, `=`).                               |
+| `Where(condition string)`       | Defines filter conditions (AND, OR, =, !=, <, >, <=, >=). Supports single and multiple conditions, logical operators, and grouping with parentheses (e.g., price > 10 AND (stock > 50 OR rating >= 4)). Converts SQL-like syntax to MongoDB filters.    |
 | `GroupBy(field string)`         | Groups the results by a specific field.                                     |
 | `Having(condition string)`      | Filters aggregation results (`SUM`, `COUNT`, etc.).                         |
-| `OrderBy(fieldOrder string)`    | Sorts the results (`ASC`/`DESC`).                                           |
+| `OrderBy(fieldOrder string)`    | Sorts the results (`ASC` / `DESC`).                                         |
 | `Limit(limit int64)`            | Limits the number of query results.                                         |
 | `Offset(offset int64)`          | Skips a specific number of documents before retrieving results.             |
 
 ---
 
-### **2. INSERT**
+## **2. INSERT**
 
 | Function                              | Description                                                               |
 |---------------------------------------|---------------------------------------------------------------------------|
@@ -50,7 +50,7 @@ Below is the complete list of query functions available in the MongoQuery librar
 
 ---
 
-### **3. UPDATE**
+## **3. UPDATE**
 
 | Function                        | Description                                                                 |
 |---------------------------------|-----------------------------------------------------------------------------|
@@ -60,7 +60,7 @@ Below is the complete list of query functions available in the MongoQuery librar
 
 ---
 
-### **4. DELETE**
+## **4. DELETE**
 
 | Function                        | Description                                                                 |
 |---------------------------------|-----------------------------------------------------------------------------|
@@ -69,43 +69,73 @@ Below is the complete list of query functions available in the MongoQuery librar
 
 ---
 
-### **5. CREATE INDEX**
+## **5. JOIN**
 
-| Function                        | Description                                                                 |
-|---------------------------------|-----------------------------------------------------------------------------|
-| `Index(name string, fields string)` | Defines the index name and the fields to index.                            |
-
----
-
-### **6. DELETE INDEX**
-
-| Function                        | Description                                                                 |
-|---------------------------------|-----------------------------------------------------------------------------|
-| `Index(name string)`            | Specifies the name of the index to delete.                                  |
+| Function                              | Description                                                                 |
+|---------------------------------------|-----------------------------------------------------------------------------|
+| `Join(localField, fromCollection, foreignField, as string)` | Adds a `$lookup` stage to perform joins between collections.              |
 
 ---
 
-### **7. AGGREGATION**
+## **6. GROUP BY**
 
-| Function                          | Description                                                                 |
-|-----------------------------------|-----------------------------------------------------------------------------|
-| `Match(condition string)`         | Adds a filter (`WHERE`) to the aggregation pipeline.                        |
-| `GroupBy(field string)`           | Adds grouping to the aggregation pipeline.                                  |
-| `NestedGroupBy(fields ...string)` | Supports nested aggregation grouping.                                       |
-| `Having(condition string)`        | Adds filtering for aggregation results.                                     |
-| `OrderBy(fieldOrder string)`      | Adds sorting to the aggregation pipeline.                                   |
-| `AggregationLimit(limit int64)`   | Limits the number of documents in the aggregation pipeline.                 |
-| `AggregationOffset(offset int64)` | Skips a specific number of documents in the aggregation pipeline.           |
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `GroupBy(field string)`               | Groups the results by a specific field.                                   |
+| `NestedGroupBy(fields ...string)`     | Groups results at multiple levels (nested grouping).                      |
 
 ---
 
-### **8. EXPRESSIONS & CONDITIONS**
+## **7. AGGREGATION**
 
-| Function                          | Description                                                                 |
-|-----------------------------------|-----------------------------------------------------------------------------|
-| `parseConditions(condition string)` | Processes dynamic conditions (`AND`, `OR`, `=`, etc.).                     |
-| `parseExpression(expression string)` | Supports parsing mathematical and logical expressions.                     |
-| `mapOperatorToMongo(operator string)` | Converts SQL-like operators to MongoDB operators (`>`, `<`, `=`, `!=`).    |
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `Match(condition string)`             | Filters documents based on conditions.                                    |
+| `GroupBy(field string)`               | Groups results and performs aggregation.                                  |
+| `OrderBy(fieldOrder string)`          | Sorts aggregated results.                                                 |
+| `AggregationLimit(limit int64)`       | Limits the number of results in the aggregation pipeline.                 |
+| `AggregationOffset(offset int64)`     | Skips a specific number of documents in the aggregation pipeline.         |
+
+---
+
+## **8. HAVING**
+
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `Having(condition string)`            | Filters grouped results after aggregation (e.g., `SUM`, `COUNT`).         |
+
+---
+
+## **9. CONDITIONS**
+
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `Where(condition string)`             | Handles single and multiple conditions (`AND`, `OR`, parentheses).        |
+
+---
+
+## **10. EXPRESSION PARSING**
+
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `parseConditions(condition string)`   | Parses and converts conditions into MongoDB filters.                      |
+| `parseExpression(expression string)`  | Parses mathematical and logical expressions.                              |
+
+---
+
+## **11. CREATE INDEX**
+
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `Index(name string, fields string)`   | Creates an index on the specified fields in a collection.                 |
+
+---
+
+## **12. DELETE INDEX**
+
+| Function                              | Description                                                               |
+|---------------------------------------|---------------------------------------------------------------------------|
+| `Index(name string)`                  | Removes an index from the specified collection.                           |
 
 ---
 

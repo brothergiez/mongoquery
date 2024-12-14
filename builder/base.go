@@ -30,6 +30,19 @@ func NewQueryBuilder() *QueryBuilder {
 	}
 }
 
+// Join adds a $lookup stage to the aggregation pipeline for joining collections.
+func (qb *QueryBuilder) Join(localField, fromCollection, foreignField, as string) *QueryBuilder {
+	qb.Pipeline = append(qb.Pipeline, bson.D{
+		{Key: "$lookup", Value: bson.M{
+			"from":         fromCollection,
+			"localField":   localField,
+			"foreignField": foreignField,
+			"as":           as,
+		}},
+	})
+	return qb
+}
+
 // Limit sets the maximum number of documents to return.
 func (qb *QueryBuilder) Limit(limit int64) *QueryBuilder {
 	qb.LimitVal = limit
