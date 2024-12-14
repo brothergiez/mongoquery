@@ -76,19 +76,20 @@ func main() {
     fmt.Println("MongoDB connection established.")
     
     // Example With QueryBuilder
-	fmt.Println("Example: Basic SELECT with QueryBuilder")
-	basicQuery := builder.NewQueryBuilder().
-		Select("field1", "field2").
-		From("orders").
-		Where("status = 'active'").
-		OrderBy("field1 ASC").
-		Limit(10)
-
-	results, err := basicQuery.Execute(mdb.Database)
-	if err != nil {
-		log.Fatalf("Query failed: %v", err)
-	}
-	fmt.Printf("Results: %v\n\n", results)
+    
+    fmt.Println("Example: Basic SELECT with QueryBuilder")
+    basicQuery := builder.NewQueryBuilder().
+        Select("field1", "field2").
+        From("orders").
+        Where("status = 'active'").
+        OrderBy("field1 ASC").
+        Limit(10)
+    
+    results, err := basicQuery.Execute(mdb.Database)
+    if err != nil {
+        log.Fatalf("Query failed: %v", err)
+    }
+    fmt.Printf("Results: %v\n\n", results)
 	
 	
     //Example with sqlparser
