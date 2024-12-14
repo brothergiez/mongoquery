@@ -42,6 +42,7 @@ Once installed, import the library into your Go files:
 ```go
 import (
     "github.com/brothergiez/mongoquery/builder"
+    "github.com/brothergiez/mongoquery/sqlparser"
     "github.com/brothergiez/mongoquery/client"
 )
 ```
