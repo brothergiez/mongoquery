@@ -445,6 +445,51 @@ fmt.Println("Delete Index executed successfully")
 ```
 ---
 
+## Query Builder Features
+
+| Feature                                   | Status     | Notes                                                                                          |
+|-------------------------------------------|------------|------------------------------------------------------------------------------------------------|
+| **Parsing advanced with query builder**   | ✅ Supported | Advanced parsing implemented via `parseConditions` and `parseExpression`.                      |
+| **Join with query builder**               | ✅ Supported | `$lookup` for joins added with the `Join` method.                                              |
+| **GroupBy with query builder**            | ✅ Supported | Single-level and multi-level grouping supported with `GroupBy` and `NestedGroupBy`.            |
+| **Aggregate pipeline with query builder** | ✅ Supported | Fully supported with `Match`, `GroupBy`, `OrderBy`, and `Pipeline`.                            |
+| **Nested aggregation with query builder** | ✅ Supported | Nested grouping and aggregations supported with `NestedGroupBy`.                               |
+| **Multi-level nested aggregation**        | ✅ Supported | Fully supported via recursive use of `NestedGroupBy` and chaining stages.                      |
+| **Having clause with query builder**      | ✅ Supported | `Having` filters aggregated results as expected.                                               |
+| **Single conditions with query builder**  | ✅ Supported | Handled via `Match` and `Where`.                                                               |
+| **Multiple conditions with query builder**| ✅ Supported | Handles complex conditions (`AND`, `OR`, parentheses) with `Match` and `Where`.                |
+| **Expression parsing and dynamic filter with query builder** | ✅ Supported | `parseExpression` and `parseConditions` handle advanced filters and expressions.               |
+| **Create index with query builder**       | ✅ Supported | Implemented via `CreateIndexBuilder` with `Index` method.                                      |
+| **Delete index with query builder**       | ✅ Supported | Implemented via `DeleteIndexBuilder` with `Index` method.                                      |
+| **Insert with query builder**             | ✅ Supported | Single and bulk insertions supported with `InsertInto` and `Values`.                           |
+| **Update with query builder**             | ✅ Supported | Single and multi-document updates supported via `Set` and `SetMulti`.                          |
+| **Delete with query builder**             | ✅ Supported | Single and multi-document deletions supported via `Where` and `SetMulti`.                      |
+
+
+---
+
+## SQL Parser Features
+
+| Feature                                   | Status     | Notes                                                                                   |
+|-------------------------------------------|------------|-----------------------------------------------------------------------------------------|
+| **Parsing advanced with query builder**   | ✅ Supported | Converts raw SQL to QueryBuilder.                                                      |
+| **Join with query builder**               | ✅ Supported | Add `$lookup` logic for joins in SQLParser (e.g., `LEFT JOIN`).                         |
+| **GroupBy with query builder**            | ✅ Supported | Parses `GROUP BY` and translates to `GroupBy` and `NestedGroupBy`.                     |
+| **Aggregate pipeline with query builder** | ✅ Supported | Parses `SELECT` and aggregates into pipeline stages.                                   |
+| **Nested aggregation with query builder** | ✅ Supported | Supports nested grouping via `NESTED GROUP BY`.                                        |
+| **Multi-level nested aggregation**        | ✅ Supported | Handles multi-level nesting dynamically.                                               |
+| **Having clause with query builder**      | ✅ Supported | Converts `HAVING` clause into `Having` stage.                                          |
+| **Single conditions with query builder**  | ✅ Supported | Parses single `WHERE` conditions.                                                     |
+| **Multiple conditions with query builder**| ✅ Supported | Supports `AND`, `OR`, and parentheses in `WHERE`.                                      |
+| **Expression parsing and dynamic filter** | ✅ Supported | Parses mathematical and logical expressions.                                           |
+| **Create index with query builder**       | ✅ Supported | Can be extended to parse `CREATE INDEX`.                                               |
+| **Delete index with query builder**       | ✅ Supported | Can be extended to parse `DROP INDEX`.                                                 |
+| **Insert with query builder**             | ✅ Supported | Add parsing logic for `INSERT INTO`.                                                   |
+| **Update with query builder**             | ✅ Supported | Add parsing logic for `UPDATE`.                                                        |
+| **Delete with query builder**             | ✅ Supported | Add parsing logic for `DELETE`.                                                        |
+
+---
+
 ## Notes and Examples
 
 This documentation provides detailed explanations and examples for each feature in MongoQuery. Use these as references to build efficient and readable MongoDB queries with SQL-like syntax.
