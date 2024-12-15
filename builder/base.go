@@ -30,6 +30,12 @@ func NewQueryBuilder() *QueryBuilder {
 	}
 }
 
+// Select query builder
+func (qb *QueryBuilder) Select(fields ...string) *QueryBuilder {
+	qb.Fields = append(qb.Fields, fields...)
+	return qb
+}
+
 // Join adds a $lookup stage to the aggregation pipeline for joining collections.
 func (qb *QueryBuilder) Join(localField, fromCollection, foreignField, as string) *QueryBuilder {
 	qb.Pipeline = append(qb.Pipeline, bson.D{
