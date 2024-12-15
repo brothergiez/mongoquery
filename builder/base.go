@@ -30,12 +30,6 @@ func NewQueryBuilder() *QueryBuilder {
 	}
 }
 
-// Select query builder
-func (qb *QueryBuilder) Select(fields ...string) *QueryBuilder {
-	qb.Fields = append(qb.Fields, fields...)
-	return qb
-}
-
 // Join adds a $lookup stage to the aggregation pipeline for joining collections.
 func (qb *QueryBuilder) Join(localField, fromCollection, foreignField, as string) *QueryBuilder {
 	qb.Pipeline = append(qb.Pipeline, bson.D{
@@ -97,4 +91,22 @@ func (qb *QueryBuilder) Execute(db *mongo.Database) ([]map[string]interface{}, e
 	}
 
 	return results, nil
+}
+
+// Select specifies the fields to include in the query result.
+func (qb *QueryBuilder) Select(fields ...string) *QueryBuilder {
+	qb.Fields = append(qb.Fields, fields...)
+	qb.Pipeline = append(qb.Pipeline, bson.D{
+		{Key: "$project", Value: qb.buildProjection()},
+	})
+	return qb
+}
+
+// buildProjection builds a MongoDB $project stage from the Fields.
+func (qb *QueryBuilder) buildProjection() bson.M {
+	projection := bson.M{}
+	for _, field := range qb.Fields {
+		projection[field] = 1
+	}
+	return projection
 }
